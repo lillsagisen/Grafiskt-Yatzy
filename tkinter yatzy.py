@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 
-dice=random.randint(1,6)
+antal=0
 dices=[]
 buttons=[]
 saved=[False, False, False, False, False]
@@ -23,11 +23,22 @@ def change_color(index):
         buttons[index].configure(bg="white")
         saved[index]=False
 
-def roll_again:
+def roll_again():
     # Slå tärningar igen
-    for [index] in saved:
-        if [index]==False:
-            
+    # gå igenom saved med index = 0, 1, ...4
+    global antal
+    if antal<2:
+        for i in range (5):
+            if saved [i] ==False:
+                # kasta denna tärning, visa på knapp
+                dice=random.randint(1,6)
+                buttons[i].configure(text=dice)
+                dices[i]=dice
+        antal=antal+1
+        print(dices)
+    else:
+        roll_dice.pack_forget()
+        
 
 
 root=tk.Tk()
@@ -65,7 +76,7 @@ dice5.pack(side=tk.LEFT)
 
 buttons.append(dice5)
 
-roll_dice=tk.Button(frame, text="Slå igen")
+roll_dice=tk.Button(frame, text="Slå igen", command=roll_again)
 roll_dice.pack(side=tk.LEFT)
 
 root.mainloop()
