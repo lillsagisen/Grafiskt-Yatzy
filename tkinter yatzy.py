@@ -307,7 +307,7 @@ def two_pairs():
 
         elif antal_four>1 and antal_two>1:
             två_par_points=tk.Label(frame, text="12")
-            två_par_points.grid(row=910, column=1)
+            två_par_points.grid(row=10, column=1)
             total_points.append(12)
             två_par["state"]=tk.DISABLED
 
@@ -754,6 +754,12 @@ def small_straight():
             roll_dice.grid(row=0, column=5)
             total_points.append(15)
 
+        else:
+            liten_stege_points=tk.Label(frame, text="0")
+            liten_stege_points.grid(row=14, column=1)
+            liten_stege["state"]=tk.DISABLED
+            roll_dice.grid(row=0, column=5)
+
         for i in range (5):
             if saved [i] == True:
                 saved[i] = False
@@ -780,6 +786,12 @@ def big_straight():
             roll_dice.grid(row=0, column=5)
             total_points.append(20)
 
+        else:
+            stor_stege_points=tk.Label(frame, text="0")
+            stor_stege_points.grid(row=15, column=1)
+            stor_stege["state"]=tk.DISABLED
+            roll_dice.grid(row=0, column=5)
+
         for i in range (5):
             if saved [i] == True:
                 saved[i] = False
@@ -798,6 +810,12 @@ def chans_command():
             points=points+i
             total_points.append(points)
             chans_points=tk.Label(frame, text=points)
+            chans_points.grid(row=16, column=1)
+            chans["state"]=tk.DISABLED
+            roll_dice.grid(row=0, column=5)
+
+        else:
+            chans_points=tk.Label(frame, text="0")
             chans_points.grid(row=16, column=1)
             chans["state"]=tk.DISABLED
             roll_dice.grid(row=0, column=5)
@@ -825,6 +843,12 @@ def yatzy_command():
             yatzy_points=tk.Label(frame, text="50")
             yatzy_points.grid(row=17, column=1)
             total_points.append(50)
+            yatzy["state"]=tk.DISABLED
+            roll_dice.grid(row=0, column=5)
+
+        else:
+            yatzy_points=tk.Label(frame, text="0")
+            yatzy_points.grid(row=17, column=1)
             yatzy["state"]=tk.DISABLED
             roll_dice.grid(row=0, column=5)
 
