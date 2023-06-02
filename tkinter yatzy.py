@@ -8,6 +8,9 @@ point_buttons=[]
 saved=[False, False, False, False, False]
 points_before_bonus=[]
 total_points=[]
+one_to_six_label=[]
+bonus_points_label=False
+variable=-1
 #Commands
 def dice_throw():
     antal=1
@@ -15,7 +18,16 @@ def dice_throw():
         dice=random.randint(1,6)
         antal=antal+1
         dices.append(dice)
-    return dice    
+    return dice
+
+def restart_throw():
+    for i in range (5):
+            if saved [i] == True:
+                saved[i] = False
+                buttons[i].configure(bg="white")
+    for i in range (5):
+        buttons[i].configure(text="0")
+    roll_dice.grid(row=0, column=5)
 
 def change_color(index):
     # sparad tärning blir grön
@@ -48,19 +60,21 @@ def roll_again():
                 buttons[i].configure(text=dice)
                 dices[i]=dice
         antal=antal+1
-        print(dices)
         roll_dice.grid_forget()
         antal=0
 
 #Bonusen ska funka
 def check_bonus ():
-    global total_points
+    global bonus_points_label
     if ones["state"]==tk.DISABLED and twos["state"]==tk.DISABLED and threes["state"]==tk.DISABLED and fours["state"]==tk.DISABLED and fives["state"]==tk.DISABLED and sixes["state"]==tk.DISABLED:
         if sum(points_before_bonus)>= 63:
             bonus_points=50
             bonus=tk.Label(frame, text=bonus_points)
             bonus.grid(row=8, column=1)
             total_points.append(bonus_points)
+            bonus_points_label==True
+            one_to_six_label.append(bonus)
+            
             
 
 
@@ -76,6 +90,7 @@ def ones_command(index):
         points_label=tk.Label(frame, text=points)
         points_label.grid(row=index+2, column=1)
         roll_dice.grid(row=0, column=5)
+        one_to_six_label.append(points_label)
         for i in range (5):
             if saved [i] == True:
                 saved[i] = False
@@ -89,124 +104,6 @@ def ones_command(index):
     total_points.append(points)
     check_bonus()
 
-def one_pair():
-    # 2 sexor? -> 12 poäng
-    # 2 femmor?
-    # ...
-    global antal
-    antal_dices=0
-    if antal==0:
-        for i in dices:
-            if i==6:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="12")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(12)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        antal_dices=0
-        for i in dices:
-            if i==5:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="10")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(10)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        antal_dices=0
-        for i in dices:
-            if i==4:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="8")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(8)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        antal_dices=0
-        for i in dices:
-            if i==3:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="6")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(6)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        antal_dices=0
-        for i in dices:
-            if i==2:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="4")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(4)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        antal_dices=0
-        for i in dices:
-            if i==1:
-                antal_dices=antal_dices+1
-        if antal_dices>1:
-            ett_par_points=tk.Label(frame, text="2")
-            ett_par_points.grid(row=9, column=1)
-            total_points.append(2)
-            ett_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            for i in range (5):
-                if saved [i] == True:
-                    saved[i] = False
-                    buttons[i].configure(bg="white")
-            for i in range (5):
-                buttons[i].configure(text="0")
-            return
-        ett_par_points=tk.Label(frame, text="0")
-        ett_par_points.grid(row=9, column=1)
-        ett_par["state"]=tk.DISABLED
-        roll_dice.grid(row=0, column=5)
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
 
 def antal_dice(ögon):
     # return antal med antal ögon
@@ -216,526 +113,122 @@ def antal_dice(ögon):
             antal_dice_antal=antal_dice_antal+1
     return antal_dice_antal
 
+def one_pair():
+    # för varje 6, 5, 4, ..., 1
+    # par i detta?
+    # skriv ut och klart
+    # inget par, gör något lämpligt
+    global antal
+    if antal==0:
+        for i in reversed(range(7)):
+            if antal_dice(i)>1:
+                ett_par_points=tk.Label(frame, text=i+i)
+                ett_par_points.grid(row=9, column=1)
+                total_points.append(i+i)
+                ett_par["state"]=tk.DISABLED
+                break
+            else:
+                ett_par_points=tk.Label(frame, text="0")
+                ett_par_points.grid(row=9, column=1)
+                ett_par["state"]=tk.DISABLED
+                
+        restart_throw()
+        one_to_six_label.append(ett_par_points)
+
 def two_pairs():
     #2 sexor och 2 femmor?.......
     #Poäng till knappen två_par
     global antal
-    antal_one=antal_dice(1)
-    antal_two=antal_dice(2)
-    antal_three=antal_dice(3)
-    antal_four=antal_dice(4)
-    antal_five=antal_dice(5)
-    antal_six=antal_dice(6)
+    har_hittat_tvapar = False
     if antal==0:
-        if antal_six>3:
-            två_par_points=tk.Label(frame, text="24")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(24)
-            två_par["state"]=tk.DISABLED
-            
-        elif antal_six>1 and antal_five>1:
-            två_par_points=tk.Label(frame, text="22")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(22)
-            två_par["state"]=tk.DISABLED
+        for i in reversed(range(7)):
+            if antal_dice(i)>1:
+                for n in reversed(range(i)):
+                    if antal_dice(n)>1:
+                        två_par_points=tk.Label(frame, text=i+i+n+n)
+                        två_par_points.grid(row=10, column=1)
+                        total_points.append(i+i+n+n)
+                        två_par["state"]=tk.DISABLED
+                        har_hittat_tvapar = True
+                        break
+                    else:
+                        två_par_points=tk.Label(frame, text="0")
+                        två_par_points.grid(row=10, column=1)
+                        två_par["state"]=tk.DISABLED
+            if har_hittat_tvapar:
+                break
 
-        elif antal_six>1 and antal_four>1:
-            två_par_points=tk.Label(frame, text="20")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(20)
-            två_par["state"]=tk.DISABLED
+        restart_throw()
+        one_to_six_label.append(två_par_points)
 
-        elif antal_six>1 and antal_three>1:
-            två_par_points=tk.Label(frame, text="18")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(18)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_six>1 and antal_two>1:
-            två_par_points=tk.Label(frame, text="16")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(16)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_six>1 and antal_one>1:
-            två_par_points=tk.Label(frame, text="14")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(14)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_five>3:
-            två_par_points=tk.Label(frame, text="20")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(20)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_five>1 and antal_four>1:
-            två_par_points=tk.Label(frame, text="18")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(18)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_five>1 and antal_three>1:
-            två_par_points=tk.Label(frame, text="16")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(16)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_five>1 and antal_two>1:
-            två_par_points=tk.Label(frame, text="14")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(14)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_five>1 and antal_one>1:
-            två_par_points=tk.Label(frame, text="12")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(12)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_four>3:
-            två_par_points=tk.Label(frame, text="16")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(16)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_four>1 and antal_three>1:
-            två_par_points=tk.Label(frame, text="14")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(14)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_four>1 and antal_two>1:
-            två_par_points=tk.Label(frame, text="12")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(12)
-            två_par["state"]=tk.DISABLED
-
-
-        elif antal_four>1 and antal_one>1:
-            två_par_points=tk.Label(frame, text="10")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(10)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_three>3:
-            två_par_points=tk.Label(frame, text="12")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(12)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_three>1 and antal_two>1:
-            två_par_points=tk.Label(frame, text="10")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(10)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_three>1 and antal_one>1:
-            två_par_points=tk.Label(frame, text="8")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(8)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_two>3:
-            två_par_points=tk.Label(frame, text="8")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(8)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_two>1 and antal_one>1:
-            två_par_points=tk.Label(frame, text="6")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(6)
-            två_par["state"]=tk.DISABLED
-
-        elif antal_one>3:
-            två_par_points=tk.Label(frame, text="4")
-            två_par_points.grid(row=10, column=1)
-            total_points.append(4)
-            två_par["state"]=tk.DISABLED
-
-        else:
-            två_par_points=tk.Label(frame, text="0")
-            två_par_points.grid(row=10, column=1)
-            två_par["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
 
 def three_of_one():
     #Räknar om man har tre av samma
     global antal
-    antal_one=antal_dice(1)
-    antal_two=antal_dice(2)
-    antal_three=antal_dice(3)
-    antal_four=antal_dice(4)
-    antal_five=antal_dice(5)
-    antal_six=antal_dice(6)
     if antal==0:
-        if antal_six>2:
-            tretal_points=tk.Label(frame, text="18")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(18)
+        for i in reversed(range(7)):
+            if antal_dice(i)>2:
+                tretal_points=tk.Label(frame, text=i+i+i)
+                tretal_points.grid(row=11, column=1)
+                tretal["state"]=tk.DISABLED
+                total_points.append(i+i+i)
+                break
+            else:
+                tretal_points=tk.Label(frame, text="0")
+                tretal_points.grid(row=11, column=1)
+                tretal["state"]=tk.DISABLED
 
-        elif antal_five>2:
-            tretal_points=tk.Label(frame, text="15")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(15)
-
-        elif antal_four>2:
-            tretal_points=tk.Label(frame, text="12")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(12)
-
-        elif antal_three>2:
-            tretal_points=tk.Label(frame, text="9")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(9)
-
-        elif antal_two>2:
-            tretal_points=tk.Label(frame, text="6")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(6)
-
-        elif antal_one>2:
-            tretal_points=tk.Label(frame, text="3")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(3)
-
-        else:
-            tretal_points=tk.Label(frame, text="0")
-            tretal_points.grid(row=11, column=1)
-            tretal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
+        restart_throw()
+        one_to_six_label.append(tretal_points)
 
 
 def four_of_one():
     #Räknar om du har fyra av samma
     global antal
-    antal_one=antal_dice(1)
-    antal_two=antal_dice(2)
-    antal_three=antal_dice(3)
-    antal_four=antal_dice(4)
-    antal_five=antal_dice(5)
-    antal_six=antal_dice(6)
     if antal==0:
-        if antal_six>3:
-            fyrtal_points=tk.Label(frame, text="18")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(18)
+        for i in reversed(range(7)):
+            if antal_dice(i)>3:
+                fyrtal_points=tk.Label(frame, text=i+i+i+i)
+                fyrtal_points.grid(row=12, column=1)
+                fyrtal["state"]=tk.DISABLED
+                total_points.append(i+i+i+i)
+                break
+            else:
+                fyrtal_points=tk.Label(frame, text="0")
+                fyrtal_points.grid(row=12, column=1)
+                fyrtal["state"]=tk.DISABLED
 
-        elif antal_five>3:
-            fyrtal_points=tk.Label(frame, text="15")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(15)
-
-        elif antal_four>3:
-            fyrtal_points=tk.Label(frame, text="12")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(12)
-
-        elif antal_three>3:
-            fyrtal_points=tk.Label(frame, text="9")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(9)
-
-        elif antal_two>3:
-            fyrtal_points=tk.Label(frame, text="6")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(6)
-
-        elif antal_one>3:
-            fyrtal_points=tk.Label(frame, text="3")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(3)
-
-        else:
-            fyrtal_points=tk.Label(frame, text="0")
-            fyrtal_points.grid(row=12, column=1)
-            fyrtal["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
-
+    restart_throw()
+    one_to_six_label.append(fyrtal_points)
 
 def full_house():
     #Command för att räkna om man har en kåk
     global antal
-    antal_one=antal_dice(1)
-    antal_two=antal_dice(2)
-    antal_three=antal_dice(3)
-    antal_four=antal_dice(4)
-    antal_five=antal_dice(5)
-    antal_six=antal_dice(6)
+    har_hittat_kåk=False
     if antal==0:
-        if antal_six==3 and antal_five==2:
-            kåk_points=tk.Label(frame, text="28")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(28)
+        for i in reversed(range(7)):
+            if antal_dice(i)>2:
+                for n in reversed(range(7)):
+                    if antal_dice(n)!=antal_dice(i):
+                    
+                        if antal_dice(n)>1:
+                            kåk_points=tk.Label(frame, text=i+i+i+n+n)
+                            kåk_points.grid(row=13, column=1)
+                            kåk["state"]=tk.DISABLED
+                            total_points.append(i+i+i+n+n)
+                            har_hittat_kåk=True
+                            break
+                        
+                        else:
+                            kåk_points=tk.Label(frame, text="0")
+                            kåk_points.grid(row=13, column=1)
+                            kåk["state"]=tk.DISABLED
+                            
+            if har_hittat_kåk:
+                break
 
-        elif antal_six==3 and antal_four==2:
-            kåk_points=tk.Label(frame, text="26")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(26)
-
-        elif antal_six==3 and antal_three==2:
-            kåk_points=tk.Label(frame, text="24")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(24)
-
-        elif antal_six==3 and antal_two==2:
-            kåk_points=tk.Label(frame, text="22")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(22)
-
-        elif antal_six==3 and antal_one==2:
-            kåk_points=tk.Label(frame, text="20")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(20)
-
-        elif antal_five==3 and antal_six==2:
-            kåk_points=tk.Label(frame, text="27")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(27)
-
-        elif antal_five==3 and antal_four==2:
-            kåk_points=tk.Label(frame, text="23")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(23)
-
-        elif antal_five==3 and antal_three==2:
-            kåk_points=tk.Label(frame, text="21")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(21)
-
-        elif antal_five==3 and antal_two==2:
-            kåk_points=tk.Label(frame, text="19")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(19)
-
-        elif antal_five==3 and antal_one==2:
-            kåk_points=tk.Label(frame, text="17")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(17)
-
-        elif antal_four==3 and antal_six==2:
-            kåk_points=tk.Label(frame, text="24")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(24)
-
-        elif antal_four==3 and antal_five==2:
-            kåk_points=tk.Label(frame, text="22")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(22)
-
-        elif antal_four==3 and antal_three==2:
-            kåk_points=tk.Label(frame, text="18")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(18)
-
-        elif antal_four==3 and antal_two==2:
-            kåk_points=tk.Label(frame, text="16")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(16)
-
-        elif antal_four==3 and antal_one==2:
-            kåk_points=tk.Label(frame, text="14")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(14)
-
-        elif antal_three==3 and antal_six==2:
-            kåk_points=tk.Label(frame, text="21")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(21)
-
-        elif antal_three==3 and antal_five==2:
-            kåk_points=tk.Label(frame, text="19")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(19)
-
-        elif antal_three==3 and antal_four==2:
-            kåk_points=tk.Label(frame, text="17")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(17)
-
-        elif antal_three==3 and antal_two==2:
-            kåk_points=tk.Label(frame, text="13")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(13)
-
-        elif antal_three==3 and antal_one==2:
-            kåk_points=tk.Label(frame, text="11")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(11)
-
-        elif antal_two==3 and antal_six==2:
-            kåk_points=tk.Label(frame, text="18")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(18)
-
-        elif antal_two==3 and antal_five==2:
-            kåk_points=tk.Label(frame, text="16")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(16)
-
-        elif antal_two==3 and antal_four==2:
-            kåk_points=tk.Label(frame, text="14")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(14)
-
-        elif antal_two==3 and antal_three==2:
-            kåk_points=tk.Label(frame, text="12")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(12)
-
-        elif antal_two==3 and antal_one==2:
-            kåk_points=tk.Label(frame, text="8")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(8)
-
-        elif antal_one==3 and antal_six==2:
-            kåk_points=tk.Label(frame, text="15")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(15)
-
-        elif antal_one==3 and antal_five==2:
-            kåk_points=tk.Label(frame, text="13")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(13)
-
-        elif antal_one==3 and antal_four==2:
-            kåk_points=tk.Label(frame, text="11")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(11)
-
-        elif antal_one==3 and antal_three==2:
-            kåk_points=tk.Label(frame, text="9")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(9)
-
-        elif antal_one==3 and antal_two==2:
-            kåk_points=tk.Label(frame, text="7")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-            total_points.append(7)
-
-        else:
-            kåk_points=tk.Label(frame, text="0")
-            kåk_points.grid(row=13, column=1)
-            kåk["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
-
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
-
+        restart_throw()
+        one_to_six_label.append(kåk_points)
 
 def small_straight():
     #Kollar om du har en liten stege
@@ -760,13 +253,8 @@ def small_straight():
             liten_stege["state"]=tk.DISABLED
             roll_dice.grid(row=0, column=5)
 
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
+        restart_throw()
+        one_to_six_label.append(liten_stege_points)
 
 
 def big_straight():
@@ -792,13 +280,8 @@ def big_straight():
             stor_stege["state"]=tk.DISABLED
             roll_dice.grid(row=0, column=5)
 
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
+        restart_throw()
+        one_to_six_label.append(stor_stege_points)
 
 
 def chans_command():
@@ -808,64 +291,101 @@ def chans_command():
     if antal==0:
         for i in dices:
             points=points+i
-            total_points.append(points)
-            chans_points=tk.Label(frame, text=points)
-            chans_points.grid(row=16, column=1)
-            chans["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
 
-        else:
-            chans_points=tk.Label(frame, text="0")
-            chans_points.grid(row=16, column=1)
-            chans["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
+        total_points.append(points)
+        chans_points=tk.Label(frame, text=points)
+        chans_points.grid(row=16, column=1)
+        chans["state"]=tk.DISABLED
 
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
+        restart_throw()
+        one_to_six_label.append(chans_points)
 
 
 def yatzy_command():
     #Kollar om man har yatzy. 50 poäng
     global antal
-    antal_one=antal_dice(1)
-    antal_two=antal_dice(2)
-    antal_three=antal_dice(3)
-    antal_four=antal_dice(4)
-    antal_five=antal_dice(5)
-    antal_six=antal_dice(6)
     if antal==0:
-        if antal_six==5 or antal_five==5 or antal_four==5 or antal_three==5 or antal_two==5 or antal_one==5:
-            yatzy_points=tk.Label(frame, text="50")
-            yatzy_points.grid(row=17, column=1)
-            total_points.append(50)
-            yatzy["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
+        for i in reversed(range(7)):
+            if antal_dice(i)>4:
+                yatzy_points=tk.Label(frame, text="50")
+                yatzy_points.grid(row=17, column=1)
+                total_points.append(50)
+                yatzy["state"]=tk.DISABLED
+                break
 
-        else:
-            yatzy_points=tk.Label(frame, text="0")
-            yatzy_points.grid(row=17, column=1)
-            yatzy["state"]=tk.DISABLED
-            roll_dice.grid(row=0, column=5)
+            else:
+                yatzy_points=tk.Label(frame, text="0")
+                yatzy_points.grid(row=17, column=1)
+                yatzy["state"]=tk.DISABLED
+                break
 
-        for i in range (5):
-            if saved [i] == True:
-                saved[i] = False
-                buttons[i].configure(bg="white")
-        for i in range (5):
-            buttons[i].configure(text="0")
-        roll_dice.grid(row=0, column=5)
+        restart_throw()
+        one_to_six_label.append(yatzy_points)
 
 def calculate_points():
     #En knapp för att kunna se hur många poäng du har hela tiden
     points_label.configure(text=sum(total_points))
-    
-                
+    one_to_six_label.append(points_label)
 
+def change_variable ():
+    global variable
+    variable=variable+1
+    
+
+
+def save_command():
+    global variable
+    global total_points
+    global points_before_bonus
+    global one_to_six_label
+    #Spara dina poäng och starta om
+    if ones["state"]==tk.DISABLED and twos["state"]==tk.DISABLED and threes["state"]==tk.DISABLED and fours["state"]==tk.DISABLED and fives["state"]==tk.DISABLED and sixes["state"]==tk.DISABLED and ett_par["state"]==tk.DISABLED and två_par["state"]==tk.DISABLED and tretal["state"]==tk.DISABLED and fyrtal["state"]==tk.DISABLED and kåk["state"]==tk.DISABLED and liten_stege["state"]==tk.DISABLED and stor_stege["state"]==tk.DISABLED and chans["state"]==tk.DISABLED and yatzy["state"]==tk.DISABLED:
+        one_to_six_label[0].configure(text="0")
+        one_to_six_label[1].configure(text="0")
+        one_to_six_label[2].configure(text="0")
+        one_to_six_label[3].configure(text="0")
+        one_to_six_label[4].configure(text="0")
+        one_to_six_label[5].configure(text="0")
+        one_to_six_label[6].configure(text="0")
+        one_to_six_label[7].configure(text="0")
+        one_to_six_label[8].configure(text="0")
+        one_to_six_label[9].configure(text="0")
+        one_to_six_label[10].configure(text="0")
+        one_to_six_label[11].configure(text="0")
+        one_to_six_label[12].configure(text="0")
+        one_to_six_label[13].configure(text="0")
+        one_to_six_label[14].configure(text="0")
+        one_to_six_label[15].configure(text="0")
+        
+    if bonus_points_label==True:
+        one_to_six_label[16].configure(text="0")
+
+    ones["state"]=tk.NORMAL
+    twos["state"]=tk.NORMAL
+    threes["state"]=tk.NORMAL
+    fours["state"]=tk.NORMAL
+    fives["state"]=tk.NORMAL
+    sixes["state"]=tk.NORMAL
+    ett_par["state"]=tk.NORMAL
+    två_par["state"]=tk.NORMAL
+    tretal["state"]=tk.NORMAL
+    fyrtal["state"]=tk.NORMAL
+    kåk["state"]=tk.NORMAL
+    liten_stege["state"]=tk.NORMAL
+    stor_stege["state"]=tk.NORMAL
+    chans["state"]=tk.NORMAL
+    yatzy["state"]=tk.NORMAL
+
+    sparat_spel=tk.Label(frame, text="Sparat spel "+str(sum(total_points))+" poäng")
+    sparat_spel.grid(row=variable+1, column=6)
+    total_points=[]
+    points_before_bonus=[]
+    one_to_six_label=[]
+
+    
+        
+
+        
         
 #Knappar
 root=tk.Tk()
@@ -977,5 +497,8 @@ points.grid(row=18, column=0, sticky=tk.E+tk.W)
 
 points_label=tk.Label(frame, text="0")
 points_label.grid(row=18, column=1)
+
+spara=tk.Button(frame, text="Spara", command= lambda:[save_command(), change_variable()])
+spara.grid(row=19, column=0, sticky=tk.E+tk.W)
 
 root.mainloop()
